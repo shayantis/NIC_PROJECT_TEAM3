@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     'users',
+    'bug_ticket'
 ]
 
 MIDDLEWARE = [
