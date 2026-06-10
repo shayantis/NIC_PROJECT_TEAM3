@@ -1,0 +1,67 @@
+{% extends 'bug_ticket/base.html' %}
+
+{% block title %}
+Create Ticket
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Title</label>
+
+            <input
+                type="text"
+                name="title"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+
+            <textarea
+                name="description"
+                rows="5"
+                required
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Severity</label>
+
+            <select name="severity">
+
+                <option value="LOW">
+                    LOW
+                </option>
+
+                <option value="MEDIUM">
+                    MEDIUM
+                </option>
+
+                <option value="HIGH">
+                    HIGH
+                </option>
+
+                <option value="CRITICAL">
+                    CRITICAL
+                </option>
+
+            </select>
+        </div>
+
+        <button type="submit">
+            Create Ticket
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,370 @@
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f5f6fa;
+    display:flex;
+}
+
+.sidebar{
+    width:220px;
+    background:#1e293b;
+    height:100vh;
+    padding:20px;
+    color:white;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    margin:15px 0;
+}
+
+.main-content{
+    flex:1;
+    padding:20px;
+}
+
+.topbar{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card p{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.table-container{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:15px;
+    border-bottom:1px solid #ddd;
+    text-align:left;
+}
+
+.form-container{
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 500px;
+}
+
+.form-group{
+    margin-bottom: 20px;
+}
+
+.form-group label{
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button{
+    background: #1e293b;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.table-container{
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th{
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+td{
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+
+/* STATUS BADGES */
+
+.status-badge{
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.status-OPEN{
+    background: #2563eb;
+}
+
+.status-ASSIGNED{
+    background: #f59e0b;
+}
+
+.status-IN_PROGRESS{
+    background: #9333ea;
+}
+
+.status-CLOSED{
+    background: #16a34a;
+}
+
+
+/* SEVERITY BADGES */
+
+.severity-badge{
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.severity-LOW{
+    background: #16a34a;
+}
+
+.severity-MEDIUM{
+    background: #f59e0b;
+}
+
+.severity-HIGH{
+    background: #ef4444;
+}
+
+.severity-CRITICAL{
+    background: #7f1d1d;
+}
+
+.ticket-link{
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.ticket-link:hover{
+    text-decoration: underline;
+}
+
+
+.detail-card{
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 700px;
+}
+
+.detail-item{
+    margin-top: 20px;
+}
+
+.detail-item p{
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+.comment-section{
+    background: white;
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 10px;
+    width: 700px;
+}
+
+.comment-section textarea{
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.comment-section button{
+    margin-top: 15px;
+}
+
+.comment-card{
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 20px;
+}
+
+.comment-card p{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* =========================
+   Severity Badges
+========================= */
+
+.severity-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.severity-LOW {
+    background-color: green;
+}
+
+.severity-MEDIUM {
+    background-color: orange;
+}
+
+.severity-HIGH {
+    background-color: red;
+}
+
+.severity-CRITICAL {
+    background-color: darkred;
+}
+
+
+/* =========================
+   Status Badges
+========================= */
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.status-OPEN {
+    background-color: royalblue;
+}
+
+.status-ASSIGNED {
+    background-color: orange;
+}
+
+.status-IN_PROGRESS {
+    background-color: purple;
+}
+
+.status-CLOSED {
+    background-color: green;
+}
+
+
+/* =========================
+   Detail Card
+========================= */
+
+.detail-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.detail-item {
+    margin-top: 20px;
+}
+
+
+/* =========================
+   Comment Section
+========================= */
+
+.comment-section {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.comment-section textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.comment-section button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    background: #1d3557;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.comment-card {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f4f4f4;
+    border-radius: 8px;
+}
+
+
+/* =========================
+   Status Form
+========================= */
+
+.detail-item select {
+    padding: 8px;
+    margin-right: 10px;
+}
+
+.detail-item button {
+    padding: 8px 15px;
+    border: none;
+    background: #1d3557;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.detail-item input{
+    padding: 8px;
+    margin-right: 10px;
+}

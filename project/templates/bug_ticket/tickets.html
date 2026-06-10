@@ -1,0 +1,65 @@
+{% extends 'bug_ticket/base.html' %}
+{% load static %}
+
+{% block title %}
+Tickets
+{% endblock %}
+
+{% block content %}
+
+<div class="table-container">
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Severity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for ticket in tickets %}
+
+            <tr>
+
+                <td>
+
+                    <a
+                        href="/api/tickets/ticket/{{ ticket.id }}/"
+                        class="ticket-link"
+                    >
+                        {{ ticket.title }}
+                    </a>
+
+                </td>
+
+                <td>
+
+                    <span class="severity-badge severity-{{ ticket.severity }}">
+                        {{ ticket.severity }}
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <span class="status-badge status-{{ ticket.status }}">
+                        {{ ticket.status }}
+                    </span>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

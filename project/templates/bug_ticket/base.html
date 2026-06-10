@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIC Bug Tracker</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>NIC BUG Tracker</h2>
+
+        <a href="/api/tickets/dashboard-page/">Dashboard</a>
+        <a href="/api/tickets/tickets-page/">Tickets</a>
+        <a href="/api/tickets/create-ticket/">
+    Create Ticket
+</a>
+    </div>
+
+    <div class="main-content">
+
+        <div class="topbar">
+            <h1>
+                {% block title %}
+                {% endblock %}
+            </h1>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+</body>
+</html>

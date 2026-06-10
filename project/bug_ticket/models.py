@@ -94,7 +94,7 @@ class TicketAssignment(models.Model):
     )
 
     def __str__(self):
-        return f"{self.ticket.title}"
+        return f"{self.ticket.title} -> {self.assigned_to.username}"
 
 
 class TicketStatusHistory(models.Model):
@@ -122,7 +122,7 @@ class TicketStatusHistory(models.Model):
     )
 
     def __str__(self):
-        return f"{self.ticket.title}"
+        return f"{self.ticket.title} : {self.old_status} -> {self.new_status}"
 
 
 class TicketComment(models.Model):

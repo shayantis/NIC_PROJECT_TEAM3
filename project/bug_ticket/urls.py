@@ -1,44 +1,57 @@
 from django.urls import path
 
 from .views import (
-    CreateTicketView,
-    TicketListView,
-    AssignTicketView,
-    UpdateTicketStatusView,
-    AddCommentView,
-    DashboardView
+    dashboard_page,
+    tickets_page,
+    login_page,
+    create_ticket_page,
+    ticket_detail_page,
+    update_status_page,
+    assign_ticket_page
 )
 
 urlpatterns = [
 
     path(
-        'create/',
-        CreateTicketView.as_view()
+        'dashboard-page/',
+        dashboard_page,
+        name='dashboard-page'
     ),
 
     path(
-        'list/',
-        TicketListView.as_view()
+        'tickets-page/',
+        tickets_page,
+        name='tickets-page'
     ),
 
     path(
-        'assign/',
-        AssignTicketView.as_view()
+        'login-page/',
+        login_page,
+        name='login-page'
     ),
 
     path(
-        'status/',
-        UpdateTicketStatusView.as_view()
+        'create-ticket/',
+        create_ticket_page,
+        name='create-ticket'
     ),
 
     path(
-        'comment/',
-        AddCommentView.as_view()
+        'ticket/<int:ticket_id>/',
+        ticket_detail_page,
+        name='ticket-detail'
     ),
-    
+
     path(
-    'dashboard/',
-    DashboardView.as_view()
-),
+        'update-status/<int:ticket_id>/',
+        update_status_page,
+        name='update-status'
+    ),
+
+    path(
+        'assign-ticket/<int:ticket_id>/',
+        assign_ticket_page,
+        name='assign-ticket'
+    ),
 
 ]
