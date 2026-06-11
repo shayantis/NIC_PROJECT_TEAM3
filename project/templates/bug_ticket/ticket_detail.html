@@ -85,29 +85,87 @@ Ticket Details
 
     <div class="detail-item">
 
-    <strong>Assign Ticket:</strong>
+        <strong>Assign Ticket:</strong>
 
-    <form
-        method="POST"
-        action="/api/tickets/assign-ticket/{{ ticket.id }}/"
-    >
-
-        {% csrf_token %}
-
-        <input
-            type="number"
-            name="assigned_to"
-            placeholder="Enter User ID"
-            required
+        <form
+            method="POST"
+            action="/api/tickets/assign-ticket/{{ ticket.id }}/"
         >
 
-        <button type="submit">
-            Assign
-        </button>
+            {% csrf_token %}
 
-    </form>
+            <input
+                type="number"
+                name="assigned_to"
+                placeholder="Enter User ID"
+                required
+            >
 
-</div>
+            <button type="submit">
+                Assign
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         FILE ATTACHMENTS
+    ========================== -->
+
+    <div class="detail-item">
+
+        <strong>Upload Attachment:</strong>
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            action=""
+        >
+
+            {% csrf_token %}
+
+            <input
+                type="file"
+                name="attachment"
+                required
+            >
+
+            <button type="submit">
+                Upload File
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="detail-item">
+
+        <strong>Attachments:</strong>
+
+        {% for attachment in ticket.attachments.all %}
+
+        <p>
+
+            <a
+                href="{{ attachment.file.url }}"
+                target="_blank"
+                class="ticket-link"
+            >
+                View Attachment
+            </a>
+
+        </p>
+
+        {% empty %}
+
+        <p>No attachments uploaded.</p>
+
+        {% endfor %}
+
+    </div>
 
 
     <div class="detail-item">
@@ -123,6 +181,10 @@ Ticket Details
 </div>
 
 
+
+<!-- =========================
+     COMMENTS
+========================= -->
 
 <div class="comment-section">
 
@@ -166,6 +228,57 @@ Ticket Details
     {% empty %}
 
     <p>No comments yet.</p>
+
+    {% endfor %}
+
+</div>
+
+
+
+<!-- =========================
+     STATUS HISTORY
+========================= -->
+
+<div class="comment-section">
+
+    <h3>Status History</h3>
+
+    {% for history in status_history %}
+
+    <div class="comment-card">
+
+        <p>
+
+            <strong>
+                {{ history.old_status }}
+            </strong>
+
+            →
+
+            <strong>
+                {{ history.new_status }}
+            </strong>
+
+        </p>
+
+        <small>
+
+            Changed by:
+            {{ history.changed_by.username }}
+
+        </small>
+
+        <br>
+
+        <small>
+            {{ history.changed_at }}
+        </small>
+
+    </div>
+
+    {% empty %}
+
+    <p>No status history available.</p>
 
     {% endfor %}
 

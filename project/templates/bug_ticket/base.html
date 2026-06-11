@@ -2,39 +2,120 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>NIC Bug Tracker</title>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
 
 <body>
 
-    <div class="sidebar">
-        <h2>NIC BUG Tracker</h2>
+    <div class="sidebar" id="sidebar">
 
-        <a href="/api/tickets/dashboard-page/">Dashboard</a>
-        <a href="/api/tickets/tickets-page/">Tickets</a>
+        <h2>
+            NIC BUG <br>
+            Tracker
+        </h2>
+
+        <a href="/api/tickets/dashboard-page/">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+        <a href="/api/tickets/tickets-page/">
+
+            <i class="fa-solid fa-ticket"></i>
+
+            <span>
+                Tickets
+            </span>
+
+        </a>
+
         <a href="/api/tickets/create-ticket/">
-    Create Ticket
-</a>
+
+            <i class="fa-solid fa-plus"></i>
+
+            <span>
+                Create Ticket
+            </span>
+
+        </a>
+
+        <a href="/api/tickets/logout/">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
     </div>
 
-    <div class="main-content">
+
+    <div class="main-content" id="mainContent">
 
         <div class="topbar">
+
             <h1>
+
                 {% block title %}
                 {% endblock %}
+
             </h1>
+
+            <button class="menu-btn"
+                    onclick="toggleSidebar()">
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
         </div>
+
 
         {% block content %}
         {% endblock %}
 
     </div>
 
+
+    <script>
+
+        function toggleSidebar(){
+
+            document
+                .getElementById("sidebar")
+                .classList
+                .toggle("collapsed");
+
+            document
+                .getElementById("mainContent")
+                .classList
+                .toggle("expanded");
+        }
+
+    </script>
+
 </body>
+
 </html>

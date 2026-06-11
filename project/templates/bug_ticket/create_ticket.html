@@ -6,61 +6,167 @@ Create Ticket
 
 {% block content %}
 
-<div class="form-container">
+<div class="create-ticket-layout">
 
-    <form method="POST">
+    <!-- LEFT SIDE FORM -->
 
-        {% csrf_token %}
+    <div class="form-container">
 
-        <div class="form-group">
-            <label>Title</label>
+        <form method="POST" enctype="multipart/form-data">
 
-            <input
-                type="text"
-                name="title"
-                required
-            >
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label>
+                    Title
+                </label>
+
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Enter ticket title"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Description
+                </label>
+
+                <textarea
+                    name="description"
+                    rows="6"
+                    placeholder="Describe the issue in detail..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Attachment
+                </label>
+
+                <input
+                    type="file"
+                    name="attachment"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Severity
+                </label>
+
+                <select name="severity">
+
+                    <option value="LOW">
+                        LOW
+                    </option>
+
+                    <option value="MEDIUM">
+                        MEDIUM
+                    </option>
+
+                    <option value="HIGH">
+                        HIGH
+                    </option>
+
+                    <option value="CRITICAL">
+                        CRITICAL
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button type="submit">
+                Create Ticket
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- RIGHT SIDE PANEL -->
+
+    <div class="ticket-info-panel">
+
+        <h2>
+            Support Center
+        </h2>
+
+        <p>
+            Submit technical incidents, system failures,
+            service requests, or operational issues for
+            faster tracking and resolution.
+        </p>
+
+
+        <div class="info-box">
+
+            <h4>
+                LOW Severity
+            </h4>
+
+            <p>
+                Minor issue with low impact on workflow.
+            </p>
+
         </div>
 
-        <div class="form-group">
-            <label>Description</label>
 
-            <textarea
-                name="description"
-                rows="5"
-                required
-            ></textarea>
+        <div class="info-box">
+
+            <h4>
+                MEDIUM Severity
+            </h4>
+
+            <p>
+                Problem affecting daily operations for users.
+            </p>
+
         </div>
 
-        <div class="form-group">
-            <label>Severity</label>
 
-            <select name="severity">
+        <div class="info-box">
 
-                <option value="LOW">
-                    LOW
-                </option>
+            <h4>
+                HIGH Severity
+            </h4>
 
-                <option value="MEDIUM">
-                    MEDIUM
-                </option>
+            <p>
+                Major issue affecting multiple employees or services.
+            </p>
 
-                <option value="HIGH">
-                    HIGH
-                </option>
-
-                <option value="CRITICAL">
-                    CRITICAL
-                </option>
-
-            </select>
         </div>
 
-        <button type="submit">
-            Create Ticket
-        </button>
 
-    </form>
+        <div class="info-box">
+
+            <h4>
+                CRITICAL Severity
+            </h4>
+
+            <p>
+                Urgent outage or production system failure requiring immediate action.
+            </p>
+
+        </div>
+
+    </div>
 
 </div>
 

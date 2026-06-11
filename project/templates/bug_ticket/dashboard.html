@@ -7,27 +7,177 @@ Dashboard
 
 {% block content %}
 
+<!-- =========================
+     DASHBOARD CARDS
+========================= -->
+
 <div class="card-grid">
 
-    <div class="card">
-        <h3>Total Tickets</h3>
-        <p>{{ total_tickets }}</p>
+    <div class="card blue-card">
+
+        <h3>
+            Total Tickets
+        </h3>
+
+        <p>
+            {{ total_tickets }}
+        </p>
+
+        <i class="fa-solid fa-ticket card-icon"></i>
+
     </div>
 
-    <div class="card">
-        <h3>Open Tickets</h3>
-        <p>{{ open_tickets }}</p>
+
+    <div class="card orange-card">
+
+        <h3>
+            Open Tickets
+        </h3>
+
+        <p>
+            {{ open_tickets }}
+        </p>
+
+        <i class="fa-solid fa-folder-open card-icon"></i>
+
     </div>
 
-    <div class="card">
-        <h3>Assigned Tickets</h3>
-        <p>{{ assigned_tickets }}</p>
+
+    <div class="card purple-card">
+
+        <h3>
+            Assigned Tickets
+        </h3>
+
+        <p>
+            {{ assigned_tickets }}
+        </p>
+
+        <i class="fa-solid fa-user-check card-icon"></i>
+
     </div>
 
-    <div class="card">
-        <h3>Closed Tickets</h3>
-        <p>{{ closed_tickets }}</p>
+
+    <div class="card green-card">
+
+        <h3>
+            Closed Tickets
+        </h3>
+
+        <p>
+            {{ closed_tickets }}
+        </p>
+
+        <i class="fa-solid fa-circle-check card-icon"></i>
+
     </div>
+
+</div>
+
+
+
+<!-- =========================
+     ALERTS SECTION
+========================= -->
+
+<div class="table-container">
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:24px;
+    ">
+
+        <h2 style="
+            font-size:28px;
+            font-weight:700;
+        ">
+            Recent Alerts
+        </h2>
+
+        <i class="fa-solid fa-bell"
+           style="
+            font-size:22px;
+            color:#2563eb;
+           ">
+        </i>
+
+    </div>
+
+
+    {% for alert in alerts %}
+
+        <div class="alert-card">
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:10px;
+            ">
+
+                <strong style="
+                    font-size:18px;
+                    color:#0f172a;
+                ">
+
+                    {{ alert.message }}
+
+                </strong>
+
+                <span style="
+                    font-size:13px;
+                    color:#64748b;
+                ">
+
+                    {{ alert.created_at }}
+
+                </span>
+
+            </div>
+
+
+            <div style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+            ">
+
+                <i class="fa-solid fa-ticket"
+                   style="
+                    color:#2563eb;
+                   ">
+                </i>
+
+                <span style="
+                    color:#334155;
+                    font-weight:500;
+                ">
+
+                    Ticket:
+                    {{ alert.ticket.title }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+    {% empty %}
+
+        <div class="alert-card">
+
+            <p style="
+                color:#64748b;
+                font-size:16px;
+            ">
+                No alerts available.
+            </p>
+
+        </div>
+
+    {% endfor %}
 
 </div>
 

@@ -7,7 +7,8 @@ from .views import (
     create_ticket_page,
     ticket_detail_page,
     update_status_page,
-    assign_ticket_page
+    assign_ticket_page,
+    logout_page
 )
 
 urlpatterns = [
@@ -28,6 +29,12 @@ urlpatterns = [
         'login-page/',
         login_page,
         name='login-page'
+    ),
+
+    path(
+        'logout/',
+        logout_page,
+        name='logout'
     ),
 
     path(

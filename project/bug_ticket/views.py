@@ -1,9 +1,14 @@
+from django.core.mail import send_mail
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from users.models import User
 
@@ -12,6 +17,7 @@ from .models import (
     TicketAssignment,
     TicketStatusHistory,
     TicketComment,
+    TicketAttachment,
     Alert
 )
 
@@ -235,6 +241,7 @@ class DashboardView(APIView):
 # FRONTEND PAGES
 # =========================
 
+@login_required(login_url='/api/tickets/login-page/')
 def dashboard_page(request):
 
     total_tickets = Ticket.objects.count()
@@ -251,11 +258,16 @@ def dashboard_page(request):
         status='CLOSED'
     ).count()
 
+    alerts = Alert.objects.all().order_by(
+        '-created_at'
+    )[:5]
+
     context = {
         "total_tickets": total_tickets,
         "open_tickets": open_tickets,
         "assigned_tickets": assigned_tickets,
-        "closed_tickets": closed_tickets
+        "closed_tickets": closed_tickets,
+        "alerts": alerts
     }
 
     return render(
@@ -265,9 +277,12 @@ def dashboard_page(request):
     )
 
 
+@login_required(login_url='/api/tickets/login-page/')
 def tickets_page(request):
 
-    tickets = Ticket.objects.all().order_by('-created_at')
+    tickets = Ticket.objects.all().order_by(
+        '-created_at'
+    )
 
     context = {
         "tickets": tickets
@@ -282,12 +297,51 @@ def tickets_page(request):
 
 def login_page(request):
 
+    if request.user.is_authenticated:
+        return redirect('/')
+
+    if request.method == "POST":
+
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if user is not None:
+
+            login(request, user)
+
+            return redirect(
+                '/api/tickets/dashboard-page/'
+            )
+
+        else:
+
+            messages.error(
+                request,
+                "Invalid username or password."
+            )
+
     return render(
         request,
         'bug_ticket/login.html'
     )
 
 
+def logout_page(request):
+
+    logout(request)
+
+    return redirect(
+        '/api/tickets/login-page/'
+    )
+
+
+@login_required(login_url='/api/tickets/login-page/')
 def create_ticket_page(request):
 
     if request.method == "POST":
@@ -296,25 +350,74 @@ def create_ticket_page(request):
         description = request.POST.get("description")
         severity = request.POST.get("severity")
 
-        admin_user = User.objects.first()
+        attachment_file = request.FILES.get(
+            "attachment"
+        )
 
         ticket = Ticket.objects.create(
             title=title,
             description=description,
             severity=severity,
             status='OPEN',
-            created_by=admin_user
+            created_by=request.user
         )
+
+        # =========================
+        # FILE ATTACHMENT
+        # =========================
+
+        if attachment_file:
+
+            TicketAttachment.objects.create(
+                ticket=ticket,
+                uploaded_by=request.user,
+                file=attachment_file
+            )
+
+        # =========================
+        # EMAIL NOTIFICATION
+        # =========================
+
+        if request.user.email:
+
+            send_mail(
+                subject='New Ticket Created',
+
+                message=f'''
+Ticket Title: {ticket.title}
+
+Severity: {ticket.severity}
+
+Description:
+{ticket.description}
+
+Status: {ticket.status}
+                ''',
+
+                from_email=None,
+
+                recipient_list=[
+                    request.user.email
+                ],
+
+                fail_silently=True,
+            )
+
+        # =========================
+        # ALERT
+        # =========================
 
         if severity == 'CRITICAL':
 
             Alert.objects.create(
-                user=admin_user,
+                user=request.user,
                 ticket=ticket,
                 message="Critical ticket created"
             )
 
-        return redirect('/api/tickets/tickets-page/')
+        return redirect(
+            '/api/tickets/tickets-page/'
+        )
 
     return render(
         request,
@@ -322,23 +425,33 @@ def create_ticket_page(request):
     )
 
 
+@login_required(login_url='/api/tickets/login-page/')
 def ticket_detail_page(request, ticket_id):
 
-    ticket = Ticket.objects.get(id=ticket_id)
+    ticket = get_object_or_404(
+        Ticket,
+        id=ticket_id
+    )
 
     comments = TicketComment.objects.filter(
         ticket=ticket
     ).order_by('-created_at')
 
+    all_users = User.objects.all()
+
+    status_history = TicketStatusHistory.objects.filter(
+        ticket=ticket
+    ).order_by('-changed_at')
+
     if request.method == "POST":
 
-        comment_text = request.POST.get("comment")
-
-        admin_user = User.objects.first()
+        comment_text = request.POST.get(
+            "comment"
+        )
 
         TicketComment.objects.create(
             ticket=ticket,
-            user=admin_user,
+            user=request.user,
             comment=comment_text
         )
 
@@ -354,7 +467,9 @@ def ticket_detail_page(request, ticket_id):
 
     context = {
         "ticket": ticket,
-        "comments": comments
+        "comments": comments,
+        "all_users": all_users,
+        "status_history": status_history
     }
 
     return render(
@@ -364,26 +479,30 @@ def ticket_detail_page(request, ticket_id):
     )
 
 
+@login_required(login_url='/api/tickets/login-page/')
 def update_status_page(request, ticket_id):
 
-    ticket = Ticket.objects.get(id=ticket_id)
+    ticket = get_object_or_404(
+        Ticket,
+        id=ticket_id
+    )
 
     if request.method == "POST":
 
-        new_status = request.POST.get("status")
+        new_status = request.POST.get(
+            "status"
+        )
 
         old_status = ticket.status
 
         ticket.status = new_status
         ticket.save()
 
-        admin_user = User.objects.first()
-
         TicketStatusHistory.objects.create(
             ticket=ticket,
             old_status=old_status,
             new_status=new_status,
-            changed_by=admin_user
+            changed_by=request.user
         )
 
         Alert.objects.create(
@@ -397,24 +516,29 @@ def update_status_page(request, ticket_id):
     )
 
 
+@login_required(login_url='/api/tickets/login-page/')
 def assign_ticket_page(request, ticket_id):
 
-    ticket = Ticket.objects.get(id=ticket_id)
+    ticket = get_object_or_404(
+        Ticket,
+        id=ticket_id
+    )
 
     if request.method == "POST":
 
-        assigned_to_id = request.POST.get("assigned_to")
-
-        assigned_user = User.objects.get(
-            id=assigned_to_id
+        assigned_to_id = request.POST.get(
+            "assigned_to"
         )
 
-        admin_user = User.objects.first()
+        assigned_user = get_object_or_404(
+            User,
+            id=assigned_to_id
+        )
 
         TicketAssignment.objects.create(
             ticket=ticket,
             assigned_to=assigned_user,
-            assigned_by=admin_user,
+            assigned_by=request.user,
             status='ASSIGNED'
         )
 
