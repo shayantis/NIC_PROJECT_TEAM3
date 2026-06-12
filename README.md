@@ -31,7 +31,7 @@ A web-based Bug / Ticket Tracking System developed using Django and Django REST 
 - HTML
 - CSS
 - JavaScript
-- SQLite
+- PostgreSQL
 - SMTP Email Service
 
 ## Run Project
